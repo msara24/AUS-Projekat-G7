@@ -1,2 +1,6 @@
-# AUS-Projekat-G7
-Akviziciono upravljacki sistemi projekat
+# Akviziciono upravljački sistemi - projekat
+
+## Opis:
+- RTU komunikacija preko TCP protokola
+- Očitavanje digitalnih i analognih signala
+- Komandovanje izlazima kroz UI
