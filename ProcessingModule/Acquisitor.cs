@@ -64,24 +64,32 @@ namespace ProcessingModule
 
                 foreach (IConfigItem item in configuration.GetConfigurationItems())
                 {
-                    // analogne (3100 i 1500) - svake 3 sekunde
-                    if ((item.StartAddress == 3100 || item.StartAddress == 1500) && counter % 3 == 0)
+                    bool isAnalog =
+                        item.RegistryType == PointType.ANALOG_INPUT ||
+                        item.RegistryType == PointType.ANALOG_OUTPUT;
+
+                    bool isDigital =
+                        item.RegistryType == PointType.DIGITAL_INPUT ||
+                        item.RegistryType == PointType.DIGITAL_OUTPUT;
+
+                    // DIGITALNI → 4 sekunde
+                    if (isDigital && counter % 4 == 0)
                     {
                         processingManager.ExecuteReadCommand(
                             item,
-                            counter,
-                            99,
+                            configuration.GetTransactionId(),
+                            configuration.UnitAddress,
                             item.StartAddress,
                             item.NumberOfRegisters
                         );
                     }
-                    // digitalne (3400, 3402, 3405, 3406) - svake 4 sekunde
-                    else if ((item.StartAddress == 3400 || item.StartAddress == 3402 || item.StartAddress == 3405 || item.StartAddress == 3406) && counter % 4 == 0)
+                    // ANALOGNI → 3 sekunde
+                    else if (isAnalog && counter % 3 == 0)
                     {
                         processingManager.ExecuteReadCommand(
                             item,
-                            counter,
-                            99,
+                            configuration.GetTransactionId(),
+                            configuration.UnitAddress,
                             item.StartAddress,
                             item.NumberOfRegisters
                         );
